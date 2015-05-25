@@ -1,3 +1,4 @@
+%% Funcion creada en clase para obtener los componentes de color de la imagen
 function [ b, y, s, T ] = componentes( a )
 %COMPONENTES Summary of this function goes here
 %   Detailed explanation goes here
