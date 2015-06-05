@@ -8,6 +8,7 @@ function [ img, elm_count, areas ] = caracteres( img )
     brillo = mean(mediaColumnas);
     % Si este valor es menor que 100 la considero oscura y la trato de
     % normalizar a 120 lo mismo si es superior a 140
+    brillo
     if(brillo < 100)
         img = img * (120 / brillo);
     elseif(brillo > 140)

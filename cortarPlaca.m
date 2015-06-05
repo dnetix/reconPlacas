@@ -12,12 +12,12 @@ function [ placa ] = cortarPlaca( a )
     % Corto la imagen con los porcentajes dados
     a = a(f_min:f_max, c_min:c_max, :);
     % Obtengo los componentes de color de la imagen
-    [b, s, ~, ~] = componentes(a);
+    [b, y, ~, ~] = componentes(a);
     % Resaltar el recuadro de la placa con los componentes azul y
-    % saturacion
-    d = max(b, s);
+    % amarillo
+    d = max(b, y);
     % genero una entidad estructurada cuadradad para dilatar la imagen y
-    % reducir ruido
+    % reducir ruido haciendo los elementos unirse
     ee = strel('square', 3);
     % Dilato 2 veces
     for i = 1:2

@@ -1,0 +1,334 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>articulo</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-25"><meta name="DC.source" content="articulo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Codigo para la generacion de figuras para el articulo</a></li><li><a href="#2">Proceso de corte inicial de la imagen</a></li><li><a href="#3">Descomposicion en componentes de color</a></li><li><a href="#4">Dilatacion inicial para unir elementos</a></li><li><a href="#5">Binarizacion de la imagen</a></li><li><a href="#6">Limpieza de ruido de la imagen</a></li><li><a href="#7">Localizacion de elementos y areas</a></li><li><a href="#8">Ubicacion del area mayor y remocion de las demas</a></li><li><a href="#9">Cortado de la imagen inicial del area obtenida</a></li><li><a href="#10">Convertir imagen a escala de grises</a></li><li><a href="#11">Media de intensidad por columna</a></li><li><a href="#12">Normalizacion del brillo, media de medias</a></li><li><a href="#13">Diagrama de cajas para los promedios de intensidad</a></li><li><a href="#14">Binarizacion a partir del umbral calculado</a></li><li><a href="#15">Limpieza de ruido con elemento estructurante</a></li><li><a href="#16">Eliminacion de ruido posterior a partir de los tama&ntilde;os y asignacion de areas</a></li></ul></div><h2>Codigo para la generacion de figuras para el articulo<a name="1"></a></h2><pre class="codeinput"><span class="comment">% Obtengo la imagen a trabajar</span>
+filename = <span class="string">'placas/carro (1).jpg'</span>;
+a = imread(filename);
+<span class="comment">% Imagen a trabajar</span>
+figure(1); imshow(imresize(a, 0.1));
+</pre><img vspace="5" hspace="5" src="articulo_01.png" alt=""> <h2>Proceso de corte inicial de la imagen<a name="2"></a></h2><pre class="codeinput">[fil, col, ~] = size(a);
+f_min = floor(fil * 0.4);
+f_max = ceil(fil * (1 - 0.2));
+c_min = floor(col * 0.2);
+c_max = ceil(col * (1 - 0.35));
+a = a(f_min:f_max, c_min:c_max, :);
+<span class="comment">% Imagen luego del corte inicial</span>
+figure(2); imshow(imresize(a, 0.2));
+</pre><img vspace="5" hspace="5" src="articulo_02.png" alt=""> <h2>Descomposicion en componentes de color<a name="3"></a></h2><pre class="codeinput">[b, y, s, ~] = componentes(a);
+<span class="comment">% Componentes azul, amarillo, saturacion y max(b, y)</span>
+figure(3); imshow(imresize([b, y; s, max(b, y)], 0.2));
+</pre><img vspace="5" hspace="5" src="articulo_03.png" alt=""> <h2>Dilatacion inicial para unir elementos<a name="4"></a></h2><pre class="codeinput">d = max(b, y);
+ee = strel(<span class="string">'square'</span>, 3);
+<span class="comment">% Dilato 2 veces</span>
+<span class="keyword">for</span> i = 1:2
+    d = imdilate(d, ee);
+<span class="keyword">end</span>
+figure(4); imshow(imresize(d, 0.2));
+</pre><img vspace="5" hspace="5" src="articulo_04.png" alt=""> <h2>Binarizacion de la imagen<a name="5"></a></h2><pre class="codeinput">d(d &lt; 200) = 0;
+d(d &gt; 0) = 255;
+<span class="comment">% Imagen binaria a partir de un umbral de 200</span>
+figure(5); imshow(imresize(d, 0.2));
+</pre><img vspace="5" hspace="5" src="articulo_05.png" alt=""> <h2>Limpieza de ruido de la imagen<a name="6"></a></h2><pre class="codeinput"><span class="keyword">for</span> i = 1:3
+    d = imdilate(d, ee);
+<span class="keyword">end</span>
+<span class="keyword">for</span> i = 1:6
+    d = imerode(d, ee);
+<span class="keyword">end</span>
+<span class="keyword">for</span> i = 1:3
+    d = imdilate(d, ee);
+<span class="keyword">end</span>
+d = imclearborder(d);
+<span class="comment">% Imagen luego de reduccion</span>
+figure(6); imshow(imresize(d, 0.2));
+</pre><img vspace="5" hspace="5" src="articulo_06.png" alt=""> <h2>Localizacion de elementos y areas<a name="7"></a></h2><pre class="codeinput">[l, num] = bwlabel(d);
+figure(7); imagesc(l); colormap(jet);
+</pre><img vspace="5" hspace="5" src="articulo_07.png" alt=""> <h2>Ubicacion del area mayor y remocion de las demas<a name="8"></a></h2><pre class="codeinput">area = [];
+<span class="keyword">for</span> i = 1:num
+    e = d * 0;
+    e(l == i) = 1;
+    areaI = sum(e(:));
+    area = [area, areaI];
+<span class="keyword">end</span>
+areaM = max(area);
+obj = find(area == areaM);
+e = d * 0;
+e(l == obj) = 255;
+<span class="comment">% Imagen con el area mayor unicamente</span>
+figure(8); imshow(imresize(e, 0.2));
+</pre><img vspace="5" hspace="5" src="articulo_08.png" alt=""> <h2>Cortado de la imagen inicial del area obtenida<a name="9"></a></h2><pre class="codeinput">[fil, col] = find(e &gt; 0);
+f_min = min(fil);
+f_max = max(fil);
+c_min = min(col);
+c_max = max(col);
+a = a(f_min:f_max, c_min:c_max, :);
+[fil, col, ~] = size(a);
+<span class="keyword">if</span>(fil &gt; col)
+    a = rot90(placa, 3);
+<span class="keyword">end</span>
+<span class="comment">% Corte del area obtenida sobre la imagen inicial</span>
+figure(9); imshow(a);
+</pre><img vspace="5" hspace="5" src="articulo_09.png" alt=""> <h2>Convertir imagen a escala de grises<a name="10"></a></h2><pre class="codeinput">img = rgb2gray(a);
+figure(10); imshow(img);
+</pre><img vspace="5" hspace="5" src="articulo_10.png" alt=""> <h2>Media de intensidad por columna<a name="11"></a></h2><pre class="codeinput">mediaColumnas = mean(img);
+<span class="comment">% Intensidad media por columna</span>
+figure(11); plot(mediaColumnas);
+</pre><img vspace="5" hspace="5" src="articulo_11.png" alt=""> <h2>Normalizacion del brillo, media de medias<a name="12"></a></h2><pre class="codeinput">brillo = mean(mediaColumnas);
+brillo
+<span class="keyword">if</span>(brillo &lt; 100)
+    img = img * (120 / brillo);
+<span class="keyword">elseif</span>(brillo &gt; 140)
+    img = img * (120 / brillo);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+brillo =
+
+  114.1597
+
+</pre><h2>Diagrama de cajas para los promedios de intensidad<a name="13"></a></h2><pre class="codeinput">figure(12); boxplot(mediaColumnas);
+</pre><img vspace="5" hspace="5" src="articulo_12.png" alt=""> <h2>Binarizacion a partir del umbral calculado<a name="14"></a></h2><pre class="codeinput">p_0 = prctile(mediaColumnas, 0);
+p_25 = prctile(mediaColumnas, 25);
+min_rgb = floor(p_25 - ((p_0 / p_25) * 5));
+img(img &lt; min_rgb) = 255;
+img(img &lt; 255) = 0;
+figure(13); imshow(img);
+</pre><img vspace="5" hspace="5" src="articulo_13.png" alt=""> <h2>Limpieza de ruido con elemento estructurante<a name="15"></a></h2><pre class="codeinput">[fil, col, ~] = size(img);
+minSize = floor((fil * col) * 0.01);
+img = bwareaopen(img, minSize);
+ee = strel(<span class="string">'square'</span>, 3);
+img = imerode(img, ee);
+img = imclearborder(img);
+img = imdilate(img, ee);
+figure(14); imshow(img);
+</pre><img vspace="5" hspace="5" src="articulo_14.png" alt=""> <h2>Eliminacion de ruido posterior a partir de los tama&ntilde;os y asignacion de areas<a name="16"></a></h2><pre class="codeinput">[l,num]=bwlabel(img);
+y_range = fil * 0.4;
+x_range = col * 0.2;
+elm_count = 0;
+areas = [];
+<span class="keyword">for</span> i = 1:num
+    [fil,col] = find(l==i);
+    y_min = min(fil(:));
+    y_max = max(fil(:));
+    x_min = min(col(:));
+    x_max = max(col(:));
+    <span class="keyword">if</span>((y_max - y_min) &gt; y_range &amp;&amp; (x_max - x_min) &lt; x_range)
+        areas = [areas; x_min, y_min, (x_max - x_min), (y_max - y_min)];
+        elm_count = elm_count + 1;
+    <span class="keyword">else</span>
+        img(l == i) = 0;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+figure(15); imshow(img);
+</pre><img vspace="5" hspace="5" src="articulo_15.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Codigo para la generacion de figuras para el articulo
+
+% Obtengo la imagen a trabajar
+filename = 'placas/carro (1).jpg';
+a = imread(filename);
+% Imagen a trabajar
+figure(1); imshow(imresize(a, 0.1));
+
+%% Proceso de corte inicial de la imagen
+[fil, col, ~] = size(a);
+f_min = floor(fil * 0.4);
+f_max = ceil(fil * (1 - 0.2));
+c_min = floor(col * 0.2);
+c_max = ceil(col * (1 - 0.35));
+a = a(f_min:f_max, c_min:c_max, :);
+% Imagen luego del corte inicial
+figure(2); imshow(imresize(a, 0.2));
+
+%% Descomposicion en componentes de color
+[b, y, s, ~] = componentes(a);
+% Componentes azul, amarillo, saturacion y max(b, y)
+figure(3); imshow(imresize([b, y; s, max(b, y)], 0.2));
+
+%% Dilatacion inicial para unir elementos
+d = max(b, y);
+ee = strel('square', 3);
+% Dilato 2 veces
+for i = 1:2
+    d = imdilate(d, ee);
+end
+figure(4); imshow(imresize(d, 0.2));
+
+%% Binarizacion de la imagen
+d(d < 200) = 0;
+d(d > 0) = 255;
+% Imagen binaria a partir de un umbral de 200
+figure(5); imshow(imresize(d, 0.2));
+
+%% Limpieza de ruido de la imagen
+for i = 1:3
+    d = imdilate(d, ee);
+end
+for i = 1:6
+    d = imerode(d, ee);
+end
+for i = 1:3
+    d = imdilate(d, ee);
+end
+d = imclearborder(d);
+% Imagen luego de reduccion
+figure(6); imshow(imresize(d, 0.2));
+
+%% Localizacion de elementos y areas
+[l, num] = bwlabel(d);
+figure(7); imagesc(l); colormap(jet);
+
+%% Ubicacion del area mayor y remocion de las demas
+
+area = [];
+for i = 1:num
+    e = d * 0;
+    e(l == i) = 1;
+    areaI = sum(e(:));
+    area = [area, areaI];
+end
+areaM = max(area);
+obj = find(area == areaM);
+e = d * 0;
+e(l == obj) = 255;
+% Imagen con el area mayor unicamente
+figure(8); imshow(imresize(e, 0.2));
+
+%% Cortado de la imagen inicial del area obtenida
+[fil, col] = find(e > 0);
+f_min = min(fil);
+f_max = max(fil);
+c_min = min(col);
+c_max = max(col);
+a = a(f_min:f_max, c_min:c_max, :);
+[fil, col, ~] = size(a);
+if(fil > col)
+    a = rot90(placa, 3);
+end
+% Corte del area obtenida sobre la imagen inicial
+figure(9); imshow(a);
+
+%% Convertir imagen a escala de grises
+img = rgb2gray(a);
+figure(10); imshow(img);
+
+%% Media de intensidad por columna
+mediaColumnas = mean(img);
+% Intensidad media por columna
+figure(11); plot(mediaColumnas);
+
+%% Normalizacion del brillo, media de medias
+brillo = mean(mediaColumnas);
+brillo
+if(brillo < 100)
+    img = img * (120 / brillo);
+elseif(brillo > 140)
+    img = img * (120 / brillo);
+end
+
+%% Diagrama de cajas para los promedios de intensidad
+figure(12); boxplot(mediaColumnas);
+
+%% Binarizacion a partir del umbral calculado
+p_0 = prctile(mediaColumnas, 0);
+p_25 = prctile(mediaColumnas, 25);
+min_rgb = floor(p_25 - ((p_0 / p_25) * 5));
+img(img < min_rgb) = 255;
+img(img < 255) = 0;
+figure(13); imshow(img);
+
+%% Limpieza de ruido con elemento estructurante
+[fil, col, ~] = size(img);
+minSize = floor((fil * col) * 0.01);
+img = bwareaopen(img, minSize);
+ee = strel('square', 3);
+img = imerode(img, ee);
+img = imclearborder(img);
+img = imdilate(img, ee);
+figure(14); imshow(img);
+
+%% Eliminacion de ruido posterior a partir de los tamaños y asignacion de areas
+[l,num]=bwlabel(img);
+y_range = fil * 0.4;
+x_range = col * 0.2;
+elm_count = 0;
+areas = [];
+for i = 1:num
+    [fil,col] = find(l==i);
+    y_min = min(fil(:));
+    y_max = max(fil(:));
+    x_min = min(col(:));
+    x_max = max(col(:));
+    if((y_max - y_min) > y_range && (x_max - x_min) < x_range)
+        areas = [areas; x_min, y_min, (x_max - x_min), (y_max - y_min)];
+        elm_count = elm_count + 1;
+    else
+        img(l == i) = 0;
+    end
+end
+figure(15); imshow(img);
+##### SOURCE END #####
+--></body></html>
