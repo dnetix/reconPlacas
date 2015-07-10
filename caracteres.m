@@ -1,29 +1,10 @@
 %% Con una imagen de la placa obtengo los caracteres de la placa
 function [ img, elm_count, areas ] = caracteres( img )
 %CARACTERES
-    % Dado que se trata de una imagen en grises obtengo la media de la intensidad 
-    % de cada columna de la imagen
-    mediaColumnas = mean(img);
-    % Determino el brillo como la media de las medias de cada columna
-    brillo = mean(mediaColumnas);
-    % Si este valor es menor que 100 la considero oscura y la trato de
-    % normalizar a 120 lo mismo si es superior a 140
-    brillo
-    if(brillo < 100)
-        img = img * (120 / brillo);
-    elseif(brillo > 140)
-        img = img * (120 / brillo);
-    end
-    % desviacion = std(mediaColumnas);
-    % Obtengo los percentiles 0 y 25 de los promedios de intensidad
-    p_0 = prctile(mediaColumnas, 0);
-    p_25 = prctile(mediaColumnas, 25);
-    % Determino el valor de corte para binarizar como el percentil 25 menos
-    % 5 desviaciones estandar entre este y el percentil 0
-    min_rgb = floor(p_25 - ((p_0 / p_25) * 5));
-    % Binarizo la imagen con el valor obtenido
-    img(img < min_rgb) = 255;
-    img(img < 255) = 0;
+  
+    % Binarizo la imagen
+    img = ~im2bw(img, graythresh(img));
+    
     % Obtengo el alto y el ancho de la imagen
     [fil, col, ~] = size(img);
     % Determino un valor para el ruido como el 1% del tamaño del area
